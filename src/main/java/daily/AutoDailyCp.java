@@ -24,9 +24,7 @@ public class AutoDailyCp {
 
     public void mainHandler(KeyValueClass kv) {
         log.info("程序启动... By Neo");
-
         kv = getProps();
-        System.out.println(kv.toString());
 
         String cookie = LoginRequest.login(kv.getUsername(), kv.getPassword());
 
