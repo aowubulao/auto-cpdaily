@@ -16,6 +16,12 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
 
 
 
+如果你没有服务器或者不能长时间挂在电脑上，可以使用这个版本：
+
+https://github.com/aowubulao/auto-cpdaily/tree/serverless
+
+
+
 ### 下载
 
 http://106.13.179.26/auto-cpdaily.zip
@@ -32,7 +38,7 @@ http://106.13.179.26/auto-cpdaily.zip
 
 ### 配置
 
-请先配置**daily.properties**配置文件
+请先配置**daily.properties**配置文件，可以右键记事本打开
 
 ```properties
 #学号
