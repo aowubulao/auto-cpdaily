@@ -20,50 +20,6 @@ public class AutoDailyCp {
 
     public static void main(String[] args) {
         log.info("程序启动... By Neo");
-        //保持连接
-        /*ThreadUtil.run(() -> {
-            while (flag) {
-                flag = SignRequest.heartDo();
-                ThreadUtil.sleep(1000 * 60 * 5);
-            }
-        });*/
-
-        while (flag) {
-            timeLoop();
-
-            MessageBox message;
-            try {
-                message = SignRequest.getMessage();
-            } catch (Exception e) {
-                log.error("定时任务发生错误: ", e);
-                new MailUtil().sendMessage("定时任务发生错误", "定时任务发生错误");
-                break;
-            }
-
-            assert message != null;
-            if (!message.getIsHandled() && flag) {
-                log.info("获取到新的签到信息");
-
-                String signInstanceWid = getSignInstanceWid(message);
-                String signWid = getSignWid(message);
-                String extraFieldItemWid = SignRequest.getExtraFieldItemWid(signInstanceWid, signWid);
-
-                if (SignRequest.submitForm(signInstanceWid, extraFieldItemWid)) {
-                    log.info("签到成功");
-                    ThreadUtil.sleep(1000 * 60 * 60 * 6);
-                } else {
-                    log.info("签到失败...");
-                    break;
-                }
-            } else {
-                log.info("获取一次，未获取到签到信息");
-            }
-
-            // 20 分钟获取一次
-            ThreadUtil.sleep(1000 * 60 * 20);
-        }
-
-        ThreadUtil.shutdown();
     }
 
     /**
