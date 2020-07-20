@@ -6,7 +6,10 @@ import daily.request.LoginRequest;
 import daily.request.SignRequest;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author Neo.Zzj
@@ -15,14 +18,17 @@ import java.util.List;
 @Slf4j
 public class AutoDailyCp {
 
-    public static void mainHandler(KeyValueClass kv) {
+    /*public static void main(String[] args) {
+        new AutoDailyCp().mainHandler(new KeyValueClass());
+    }*/
+
+    public void mainHandler(KeyValueClass kv) {
         log.info("程序启动... By Neo");
 
-        System.out.println(new DateTime());
+        kv = getProps();
+        System.out.println(kv.toString());
 
         String cookie = LoginRequest.login(kv.getUsername(), kv.getPassword());
-
-        System.out.println(cookie);
 
         SignRequest signRequest = new SignRequest(kv.getLongitude(), kv.getLatitude(), kv.getPosition());
 
@@ -47,5 +53,24 @@ public class AutoDailyCp {
             }
             log.info("签到完成, 成功[{}]条, 失败[{}]条", successNum, messages.size() - successNum);
         }
+    }
+
+    private KeyValueClass getProps() {
+        Properties props = new Properties();
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("daily.properties");
+        KeyValueClass kv = new KeyValueClass();
+        try {
+            props.load(is);
+            kv.setUsername(props.getProperty("username"));
+            kv.setPassword(props.getProperty("password"));
+            kv.setLongitude(props.getProperty("longitude"));
+            kv.setLatitude(props.getProperty("latitude"));
+            kv.setPosition(props.getProperty("position"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return kv;
     }
 }

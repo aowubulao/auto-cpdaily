@@ -51,7 +51,6 @@ public class SignRequest {
                 .header("Cookie", cookie)
                 .body("{\"pageSize\": 10,\"pageNumber\": 1}")
                 .execute().body();
-
         Object datas = JSONUtil.parseObj(JSONUtil.parseObj(responseBody).get(DATAS)).get(UNSIGNED_TASKS);
         JSONArray jsonArray = JSONUtil.parseArray(datas);
 
@@ -115,8 +114,6 @@ public class SignRequest {
                 .header("Cookie", cookie)
                 .body("{\"signInstanceWid\":\"" + signInstanceWid + "\",\"signWid\":\"" + signWid + "\"}")
                 .execute().body();
-
-        System.out.println(responseBody);
 
         String temp = responseBody.substring(responseBody.lastIndexOf("extraFieldItems"));
         String temp2 = temp.substring(temp.indexOf("wid"));
