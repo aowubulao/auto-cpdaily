@@ -2,6 +2,8 @@ package com.neoniou.daily.pojo;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author Neo.Zzj
  * @date 2020/7/17
@@ -9,18 +11,15 @@ import lombok.Data;
 @Data
 public class MessageBox {
 
-    /**
-     * 消息内容
-     */
-    private String content;
+    private String taskName;
 
-    /**
-     * 消息链接，用于获取 signWid 和 signInstanceWid
-     */
-    private String mobileUrl;
+    private String rateTaskBeginTime;
 
-    /**
-     * 是否提交
-     */
-    private Boolean isHandled;
+    private String rateTaskEndTime;
+
+    private Date currentTime;
+
+    private String signInstanceWid;
+
+    private String signWid;
 }

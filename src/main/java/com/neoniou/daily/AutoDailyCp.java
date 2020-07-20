@@ -2,12 +2,17 @@ package com.neoniou.daily;
 
 import cn.hutool.core.date.DateUtil;
 import com.neoniou.daily.pojo.MessageBox;
+import com.neoniou.daily.request.LoginRequest;
 import com.neoniou.daily.request.SignRequest;
 import com.neoniou.daily.util.MailUtil;
 import com.neoniou.daily.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * @author Neo.Zzj
@@ -16,10 +21,62 @@ import java.util.Date;
 @Slf4j
 public class AutoDailyCp {
 
-    private static volatile boolean flag = true;
+    private static String username;
+    private static String password;
+
+    static {
+        Properties props = new Properties();
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("daily.properties");
+        try {
+            props.load(is);
+            username = props.getProperty("username");
+            password = props.getProperty("password");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
         log.info("程序启动... By Neo");
+
+        while (true) {
+            //timeLoop();
+
+            SignRequest.setCookie(LoginRequest.login(username, password));
+            List<MessageBox> messages = SignRequest.getMessage();
+            if (messages.size() < 1) {
+                log.info("当前时间段未获取到签到信息");
+            } else {
+                log.info("获取到[{}]条签到信息", messages.size());
+
+                int successNum = submitForm(messages);
+                log.info("签到完成, 成功[{}]条, 失败[{}]条", successNum, messages.size() - successNum);
+
+                if (successNum == messages.size()) {
+                    ThreadUtil.sleep(1000 * 60 * 60 * 6);
+                }
+            }
+
+            ThreadUtil.sleep(1000 * 60 * 10);
+        }
+    }
+
+    private static int submitForm(List<MessageBox> messages) {
+        int successNum = 0;
+
+        for (MessageBox message : messages) {
+            String extraFieldItemWid = SignRequest.getExtraFieldItemWid(message.getSignInstanceWid(), message.getSignWid());
+
+            if (SignRequest.submitForm(message.getSignInstanceWid(), extraFieldItemWid)) {
+                successNum++;
+                log.info("[{}]签到成功", message.getSignInstanceWid());
+            } else {
+                log.info("[{}]签到失败", message.getSignInstanceWid());
+            }
+        }
+
+        return successNum;
     }
 
     /**
@@ -36,17 +93,5 @@ public class AutoDailyCp {
 
             ThreadUtil.sleep(1000 * 60 * 10);
         }
-    }
-
-    private static String getSignWid(MessageBox message) {
-        String s = message.getMobileUrl();
-        String s2 = s.substring(s.indexOf("Wid="));
-        return s2.substring(4, s2.indexOf("&"));
-    }
-
-    private static String getSignInstanceWid(MessageBox message) {
-        String s = message.getMobileUrl();
-        String s2 = s.substring(s.lastIndexOf("Wid="));
-        return s2.substring(4, s2.indexOf("&"));
     }
 }

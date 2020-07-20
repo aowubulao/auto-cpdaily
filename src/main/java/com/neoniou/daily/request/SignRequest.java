@@ -1,5 +1,7 @@
 package com.neoniou.daily.request;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONArray;
@@ -13,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -26,8 +31,10 @@ public class SignRequest {
     private static String   latitude;
     private static String   position;
 
-    public static String    cookie;
+    private static String   cookie;
 
+    private static final String UNSIGNED_TASKS = "unSignedTasks";
+    private static final String DATAS = "datas";
     private static final String NEW_MESSAGE = "msgsNew";
     private static final String SUCCESS = "SUCCESS";
     private static final String MESSAGE = "message";
@@ -46,15 +53,36 @@ public class SignRequest {
         }
     }
 
-    public static MessageBox getMessage() {
-        String responseBody = HttpRequest.post(DailyApi.GET_NEW)
+    public static void setCookie(String cookies) {
+        cookie = cookies;
+    }
+
+    public static List<MessageBox> getMessage() {
+        String responseBody = HttpRequest.post(DailyApi.GET_MESSAGE)
                 .header("Content-Type", "application/json")
                 .header("Cookie", cookie)
                 .body("{\"pageSize\": 10,\"pageNumber\": 1}")
                 .execute().body();
-        JSONObject resJson = JSONUtil.parseObj(responseBody);
-        JSONArray msgArray = JSONUtil.parseArray(resJson.get(NEW_MESSAGE));
-        return JSONUtil.toBean((JSONObject) msgArray.get(msgArray.size() - 1), MessageBox.class);
+
+        Object datas = JSONUtil.parseObj(JSONUtil.parseObj(responseBody).get(DATAS)).get(UNSIGNED_TASKS);
+        JSONArray jsonArray = JSONUtil.parseArray(datas);
+
+        List<MessageBox> messages = new ArrayList<>();
+        for (Object msg : jsonArray) {
+            MessageBox message = JSONUtil.toBean(msg.toString(), MessageBox.class);
+
+            DateTime startTime = DateUtil.parse(generateTime(message.getRateTaskBeginTime()));
+            DateTime endTime = DateUtil.parse(generateTime(message.getRateTaskEndTime()));
+            if (message.getCurrentTime().after(startTime) && message.getCurrentTime().before(endTime)) {
+                messages.add(message);
+            }
+        }
+
+        return messages;
+    }
+
+    private static String generateTime(String str) {
+        return DateUtil.parse(DateUtil.format(new Date(), "yyyy-MM-dd") + " " + str).toString();
     }
 
     public static boolean submitForm(String signInstanceWid, String extraFieldItemWid) {
@@ -78,7 +106,7 @@ public class SignRequest {
                 .execute();
 
         String responseBody = response.body();
-        log.info("提交后的返回体：{}", responseBody);
+        log.info("签到后的返回信息：{}", responseBody);
 
         boolean flag = false;
         try {
