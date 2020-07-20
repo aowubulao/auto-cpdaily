@@ -41,11 +41,6 @@
             <version>1.18.12</version>
         </dependency>
         <dependency>
-            <groupId>com.neoniou</groupId>
-            <artifactId>neo-mail</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
@@ -59,97 +54,20 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <targetPath>${project.build.directory}</targetPath>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-        </resources>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-dependency-plugin</artifactId>
-                                        <versionRange>[2.0,)</versionRange>
-                                        <goals>
-                                            <goal>copy-dependencies</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.1.RELEASE</version>
-            </plugin>
-
-            <!-- 生成可执行JAR包命令 maven-jar-plugin -->
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.neoniou.daily.AutoDailyCp</mainClass>
-                        </manifest>
-                        <manifestEntries>
-                            <Class-Path>./</Class-Path>
-                        </manifestEntries>
-                    </archive>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                 </configuration>
-            </plugin>
-
-            <!-- 拷贝依赖的jar包到lib目录 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>
-                                ${project.build.directory}/lib
-                            </outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

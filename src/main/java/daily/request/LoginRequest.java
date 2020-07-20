@@ -1,9 +1,8 @@
-package com.neoniou.daily.request;
+package daily.request;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import com.neoniou.daily.constant.DailyApi;
-import lombok.extern.slf4j.Slf4j;
+import daily.constant.DailyApi;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

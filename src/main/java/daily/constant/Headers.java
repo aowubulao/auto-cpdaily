@@ -1,4 +1,4 @@
-package com.neoniou.daily.constant;
+package daily.constant;
 
 /**
  * @author Neo.Zzj

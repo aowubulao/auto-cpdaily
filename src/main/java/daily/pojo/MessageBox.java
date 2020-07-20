@@ -1,4 +1,4 @@
-package com.neoniou.daily.pojo;
+package daily.pojo;
 
 import lombok.Data;
 
