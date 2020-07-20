@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateUtil;
 import com.neoniou.daily.pojo.MessageBox;
 import com.neoniou.daily.request.LoginRequest;
 import com.neoniou.daily.request.SignRequest;
-import com.neoniou.daily.util.MailUtil;
 import com.neoniou.daily.util.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,12 +35,11 @@ public class AutoDailyCp {
         }
     }
 
-
     public static void main(String[] args) {
         log.info("程序启动... By Neo");
 
         while (true) {
-            //timeLoop();
+            timeLoop();
 
             SignRequest.setCookie(LoginRequest.login(username, password));
             List<MessageBox> messages = SignRequest.getMessage();
