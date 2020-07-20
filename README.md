@@ -6,6 +6,8 @@
 
 不过此版本不需要在自己电脑上配置额外的环境，也算一个优点
 
+如果你自己有服务器，请使用这个版本：https://github.com/aowubulao/auto-cpdaily/tree/master
+
 
 
 ### 2、下载
