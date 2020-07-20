@@ -18,9 +18,9 @@ import java.util.Properties;
 @Slf4j
 public class AutoDailyCp {
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         new AutoDailyCp().mainHandler(new KeyValueClass());
-    }*/
+    }
 
     public void mainHandler(KeyValueClass kv) {
         log.info("程序启动... By Neo");

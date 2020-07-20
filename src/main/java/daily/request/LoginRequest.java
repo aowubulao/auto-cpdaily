@@ -27,6 +27,7 @@ public class LoginRequest {
                 .header("Cookie", "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE=zh_CN")
                 .execute();
 
+        System.out.println("首页信息：" + indexRes);
         lt = getLt(indexRes.body());
         Map<String, Object> loginMap = generateLoginMap(username, password);
 
@@ -40,6 +41,7 @@ public class LoginRequest {
                 .cookie(cookies.toString())
                 .form(loginMap)
                 .execute();
+        System.out.println("loginRes: " + loginRes);
         cookies = loginRes.getCookies();
 
         // 跳转最终获取 Cookie
