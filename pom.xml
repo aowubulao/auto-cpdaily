@@ -6,7 +6,7 @@
 
     <groupId>com.neoniou</groupId>
     <artifactId>auto-cpdaily</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
