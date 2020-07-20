@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.neoniou</groupId>
-    <artifactId>auto-cpdaily</artifactId>
-    <version>1.0.0</version>
+    <artifactId>auto-cpdaily-serverless</artifactId>
+    <version>1.0.1</version>
 
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
