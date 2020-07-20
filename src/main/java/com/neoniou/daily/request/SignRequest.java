@@ -21,9 +21,6 @@ import java.util.Properties;
 @Slf4j
 public class SignRequest {
 
-    private static String   userId;
-    private static String   schoolCode;
-    private static String   sign;
     private static String   cookie;
     private static String   tenantId;
     private static String   cpVersion;
@@ -45,9 +42,6 @@ public class SignRequest {
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("daily.properties");
         try {
             props.load(is);
-            userId = props.getProperty("userId");
-            schoolCode = props.getProperty("schoolCode");
-            sign = props.getProperty("sign");
             cookie = props.getProperty("cookie");
             tenantId = props.getProperty("tenantId");
             cpVersion = props.getProperty("cpVersion");
@@ -71,6 +65,7 @@ public class SignRequest {
                 .header("Cookie", cookie)
                 .body(requestBody)
                 .execute().body();
+        System.out.println(responseBody);
         JSONObject resJson = JSONUtil.parseObj(responseBody);
         JSONArray msgArray = JSONUtil.parseArray(resJson.get(NEW_MESSAGE));
         return JSONUtil.toBean((JSONObject) msgArray.get(msgArray.size() - 1), MessageBox.class);
@@ -81,20 +76,22 @@ public class SignRequest {
     }
 
     public static boolean submitForm(String signInstanceWid, String extraFieldItemWid) {
-        String signInfo = "{\"signInstanceWid\":\"siWid\",\"longitude\":long,\"latitude\":lat,\"isMalposition\":1," +
+        String signInfo = "{\"signInstanceWid\":\"siWid\",\"longitude\":r1,\"latitude\":r2,\"isMalposition\":1," +
                 "\"abnormalReason\":\"\",\"signPhotoUrl\":\"\",\"position\":\"local\"," +
                 "\"isNeedExtra\":1,\"" +
                 "extraFieldItems\":[{\"extraFieldItemValue\":\"正常，<37.2℃\",\"extraFieldItemWid\":itemId}]}";
         String body = signInfo.replace("siWid", signInstanceWid)
                 .replace("itemId", extraFieldItemWid)
-                .replace("long", longitude)
-                .replace("lat", latitude)
+                .replace("r1", longitude)
+                .replace("r2", latitude)
                 .replace("local", position);
+
+        System.out.println(body);
 
         HttpResponse response = HttpRequest.post(DailyApi.SUBMIT_FORM)
                 .header("Content-Type", Headers.CONTENT_TYPE)
                 .header("User-Agent", Headers.USER_AGENT)
-                .header("Cookie", modAuthCAS)
+                .header("Cookie", cookie)
                 .header("tenantId", tenantId)
                 .header("Cpdaily-Extension", cpVersion)
                 .body(body)

@@ -8,6 +8,6 @@ public interface Headers {
 
     String CONTENT_TYPE = "application/json";
 
-    String USER_AGENT = "User-Agent: Mozilla/5.0 (Linux; Android 10; Mi 10 Build/QKQ1.200419.002; wv) " +
-            "AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/81.0.4044.138 Mobile Safari/537.36";
+    String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " +
+            "Chrome/83.0.4103.61 Safari/537.36 Edg/83.0.478.37";
 }

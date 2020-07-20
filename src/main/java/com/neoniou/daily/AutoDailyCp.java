@@ -21,12 +21,12 @@ public class AutoDailyCp {
     public static void main(String[] args) {
         log.info("程序启动... By Neo");
         //保持连接
-        ThreadUtil.run(() -> {
+        /*ThreadUtil.run(() -> {
             while (flag) {
                 flag = SignRequest.heartDo();
                 ThreadUtil.sleep(1000 * 60 * 5);
             }
-        });
+        });*/
 
         while (flag) {
             timeLoop();
