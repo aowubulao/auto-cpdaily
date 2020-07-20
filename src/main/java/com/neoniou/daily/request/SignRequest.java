@@ -128,8 +128,6 @@ public class SignRequest {
                 .body("{\"signInstanceWid\":\"" + signInstanceWid + "\",\"signWid\":\"" + signWid + "\"}")
                 .execute().body();
 
-        System.out.println(responseBody);
-
         String temp = responseBody.substring(responseBody.lastIndexOf("extraFieldItems"));
         String temp2 = temp.substring(temp.indexOf("wid"));
         return temp2.substring(5, temp2.indexOf(","));
