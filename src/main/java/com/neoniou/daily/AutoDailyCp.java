@@ -23,6 +23,8 @@ public class AutoDailyCp {
     private static String username;
     private static String password;
 
+    private static final int RETRY_TIME = 3;
+
     static {
         Properties props = new Properties();
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("daily.properties");
@@ -41,7 +43,19 @@ public class AutoDailyCp {
         while (true) {
             timeLoop();
 
-            SignRequest.setCookie(LoginRequest.login(username, password));
+            for (int i = 1; true; i++) {
+                try {
+                    SignRequest.setCookie(LoginRequest.login(username, password));
+                    break;
+                } catch (Exception e) {
+                    log.error("程序出错: ", e);
+                    if (i == RETRY_TIME) {
+                        return;
+                    }
+                    ThreadUtil.sleep(1000 * 60);
+                }
+            }
+
             List<MessageBox> messages = SignRequest.getMessage();
             if (messages.size() < 1) {
                 log.info("当前时间段未获取到签到信息");
