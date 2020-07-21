@@ -12,7 +12,7 @@
 
 请使用这个版本：https://github.com/aowubulao/auto-cpdaily/tree/master
 
-
+文档图片打不开的可以看这：[链接](https://blog.neoniou.com/posts/auto-serverless-readme/)
 
 ### 2、下载
 
@@ -84,11 +84,19 @@ latitude=29.826659
 
 **创建方式**：模板函数
 
+
+
 <img src="https://img.neoniou.com/readme/auto-serverless-1.png" style="zoom:80%;" />
+
+
 
 然后点击下一步，此时有一个高级设置，展开高级设置，将**超时时间**设置为20s
 
+
+
 <img src="https://img.neoniou.com/readme/auto-serverless-2.png" style="zoom: 80%;" />
+
+
 
 点击**完成**即创建成功
 
@@ -102,12 +110,18 @@ latitude=29.826659
 
 点击上传，将刚才打包好的文件上传至网页，最后点击**保存**
 
+
+
 <img src="https://img.neoniou.com/readme/auto-serverless-3.png" style="zoom: 80%;" />
+
+
 
 #### 4）设置定时任务
 
 触发管理中，创建触发器，可以自己设定定时多久执行一次，可以设置为一小时执行一次或者半小时执行一次。
 
 最后**提交**即可。
+
+
 
 <img src="https://img.neoniou.com/readme/auto-serverless-4.png" style="zoom: 80%;" />
