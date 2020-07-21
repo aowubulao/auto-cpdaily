@@ -4,7 +4,7 @@
 
 目前只适用于西南大学晨晚检签到系统
 
-本版本适合于没有服务器，或者不能长时间把服务挂在电脑上的人，不过部分设置比较麻烦，以及本人对云函数并不算太熟悉，可能稳定性已经更新的及时性没有普通版本的高。
+本版本适合于没有服务器，或者不能长时间把服务挂在电脑上的人，不过部分设置比较麻烦，~~以及本人对云函数并不算太熟悉，可能稳定性已经更新的及时性没有普通版本的高。~~ **很稳** =w=
 
 不过此版本不需要在自己电脑上配置额外的环境，也算一个优点
 
@@ -39,6 +39,8 @@ username=xxxxxxxxxxxxxxx
 password=123456
 
 #打卡位置，请使用 unicode 编码填写
+#西南大学转换为 unicode编码 为 ：\u897f\u5357\u5927\u5b66
+#改为你自己平时定位的地址名字即可，为中文地址
 #可以在这个网站转换编码 http://tool.chinaz.com/Tools/Unicode.aspx?qq-pf-to=pcqq.c2c
 position=\u897f\u5357\u5927\u5b66
 
@@ -54,9 +56,13 @@ latitude=29.826659
 
 将配置文件打入包中
 
-此步骤建议下载 7zip 解压软件进行操作，地址：https://www.7-zip.org/download.html
+此步骤建议下载 7zip 解压软件(测试360压缩也可以)进行操作
+
+地址：https://www.7-zip.org/download.html
 
 **右键 auto-cpdaily-serverless.jar ---> 7-zip ---> 打开压缩包**
+
+用其他压缩软件应该也可以，右键用压缩软件打开即可，**不要解压**
 
 将 **daily.properties** 复制进压缩包中，然后关闭
 
@@ -78,7 +84,11 @@ latitude=29.826659
 
 **创建方式**：模板函数
 
+<img src="https://img.neoniou.com/readme/auto-serverless-1.png" style="zoom:80%;" />
+
 然后点击下一步，此时有一个高级设置，展开高级设置，将**超时时间**设置为20s
+
+<img src="https://img.neoniou.com/readme/auto-serverless-2.png" style="zoom: 80%;" />
 
 点击**完成**即创建成功
 
@@ -92,8 +102,12 @@ latitude=29.826659
 
 点击上传，将刚才打包好的文件上传至网页，最后点击**保存**
 
+<img src="https://img.neoniou.com/readme/auto-serverless-3.png" style="zoom: 80%;" />
+
 #### 4）设置定时任务
 
 触发管理中，创建触发器，可以自己设定定时多久执行一次，可以设置为一小时执行一次或者半小时执行一次。
 
 最后**提交**即可。
+
+<img src="https://img.neoniou.com/readme/auto-serverless-4.png" style="zoom: 80%;" />
