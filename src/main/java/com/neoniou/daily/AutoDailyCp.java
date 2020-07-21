@@ -1,6 +1,5 @@
 package com.neoniou.daily;
 
-import cn.hutool.core.date.DateUtil;
 import com.neoniou.daily.pojo.MessageBox;
 import com.neoniou.daily.request.LoginRequest;
 import com.neoniou.daily.request.SignRequest;
@@ -9,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -41,8 +39,6 @@ public class AutoDailyCp {
         log.info("程序启动... By Neo");
 
         while (true) {
-            timeLoop();
-
             for (int i = 1; true; i++) {
                 try {
                     SignRequest.setCookie(LoginRequest.login(username, password));
@@ -70,7 +66,7 @@ public class AutoDailyCp {
                 }
             }
 
-            ThreadUtil.sleep(1000 * 60 * 10);
+            ThreadUtil.sleep(1000 * 60 * 20);
         }
     }
 
@@ -89,21 +85,5 @@ public class AutoDailyCp {
         }
 
         return successNum;
-    }
-
-    /**
-     * 到签到时间才开始获取信息
-     */
-    private static void timeLoop() {
-        while (true) {
-            int hour = DateUtil.hour(new Date(), true);
-            if (hour >= 8 && hour < 12) {
-                break;
-            } else if (hour >= 19 && hour < 22) {
-                break;
-            }
-
-            ThreadUtil.sleep(1000 * 60 * 10);
-        }
     }
 }
