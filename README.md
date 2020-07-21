@@ -1,22 +1,28 @@
 # 今日校园自动签到-云函数版
 
+### 0、版本
+
+此脚本分为两个版本，一个是普通版：[链接](https://github.com/aowubulao/auto-cpdaily/tree/master)，普通版需要程序一直在电脑的后台运行，开箱即用，适合有服务器的人使用。
+
+现在浏览的版本是云函数版：[链接](https://github.com/aowubulao/auto-cpdaily/tree/serverless)，云函数版可以通过将文件上传到腾讯云函数，定时执行，不需要有服务器，也是基本免费的。
+
+
+
 ### 1、使用前
 
 目前只适用于西南大学晨晚检签到系统
 
 本版本适合于没有服务器，或者不能长时间把服务挂在电脑上的人，不过部分设置比较麻烦，~~以及本人对云函数并不算太熟悉，可能稳定性已经更新的及时性没有普通版本的高。~~ **很稳** =w=
 
-不过此版本不需要在自己电脑上配置额外的环境，也算一个优点
-
-如果你自己有服务器，或者嫌这个配置麻烦，就想挂在自己的电脑上
-
-请使用这个版本：https://github.com/aowubulao/auto-cpdaily/tree/master
-
 文档图片打不开的可以看这：[链接](https://blog.neoniou.com/posts/auto-serverless-readme/)
+
+
 
 ### 2、下载
 
-http://106.13.179.26/serverless.zip
+[下载链接1](http://106.13.179.26/serverless.zip)
+
+[下载链接2](https://github.com/aowubulao/auto-cpdaily/releases/) （serverless.zip）
 
 解压后目录：
 
@@ -92,6 +98,8 @@ latitude=29.826659
 
 然后点击下一步，此时有一个高级设置，展开高级设置，将**超时时间**设置为20s
 
+内存建议设置为256MB或更高
+
 
 
 <img src="https://img.neoniou.com/readme/auto-serverless-2.png" style="zoom: 80%;" />
@@ -118,10 +126,14 @@ latitude=29.826659
 
 #### 4）设置定时任务
 
-触发管理中，创建触发器，可以自己设定定时多久执行一次，可以设置为一小时执行一次或者半小时执行一次。
+触发管理中，创建触发器，可以自己设定定时多久执行一次，可以设置为半小时执行一次或者一小时执行一次。
 
 最后**提交**即可。
 
 
 
 <img src="https://img.neoniou.com/readme/auto-serverless-4.png" style="zoom: 80%;" />
+
+#### 5）日志查询
+
+可以在日志查询处查询运行状态和运行日志。
