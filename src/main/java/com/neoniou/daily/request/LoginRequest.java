@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public class LoginRequest {
 
+    private static final int OK = 200;
+
     private static String lt;
 
     public static String login(String username, String password) {
@@ -28,26 +30,33 @@ public class LoginRequest {
                 .header("Cookie", "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE=zh_CN")
                 .execute();
 
-        lt = getLt(indexRes.body());
-        Map<String, Object> loginMap = generateLoginMap(username, password);
+        List<HttpCookie> cookies;
+        if (OK == indexRes.getStatus()) {
+            lt = getLt(indexRes.body());
+            Map<String, Object> loginMap = generateLoginMap(username, password);
 
-        // 替换登录 url
-        List<HttpCookie> cookies = indexRes.getCookies();
-        String sessionId = cookies.get(0).toString();
-        String loginUrl = DailyApi.SWU_LOGIN.replace("sessionId", sessionId);
+            // 替换登录 url
+            cookies = indexRes.getCookies();
+            String sessionId = cookies.get(0).toString();
+            String loginUrl = DailyApi.SWU_LOGIN.replace("sessionId", sessionId);
 
-        // 登录步骤 1
-        HttpResponse loginRes = HttpRequest.post(loginUrl)
-                .cookie(cookies.toString())
-                .form(loginMap)
-                .execute();
-        cookies = loginRes.getCookies();
+            // 登录步骤 1
+            HttpResponse loginRes = HttpRequest.post(loginUrl)
+                    .cookie(cookies.toString())
+                    .form(loginMap)
+                    .execute();
+            cookies = loginRes.getCookies();
 
-        // 跳转最终获取 Cookie
-        HttpResponse moveRes = HttpRequest.get(loginRes.header("Location"))
-                .cookie(cookies.toString())
-                .execute();
-        cookies = moveRes.getCookies();
+            // 跳转最终获取 Cookie
+            HttpResponse moveRes = HttpRequest.get(loginRes.header("Location"))
+                    .cookie(cookies.toString())
+                    .execute();
+            cookies = moveRes.getCookies();
+        } else {
+            HttpResponse moveRes = HttpRequest.get(indexRes.header("Location"))
+                    .execute();
+            cookies = moveRes.getCookies();
+        }
 
         return handleCookie(cookies);
     }
