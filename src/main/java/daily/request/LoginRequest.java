@@ -44,6 +44,12 @@ public class LoginRequest {
                     .cookie(cookies.toString())
                     .form(loginMap)
                     .execute();
+
+            // 登陆失败
+            if (loginRes.getStatus() == OK) {
+                return null;
+            }
+
             cookies = loginRes.getCookies();
 
             // 跳转最终获取 Cookie
