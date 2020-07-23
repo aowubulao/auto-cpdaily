@@ -85,7 +85,6 @@ public class SignRequest {
 
         HttpResponse response = HttpRequest.post(DailyApi.SUBMIT_FORM)
                 .header("Content-Type", Headers.CONTENT_TYPE)
-                .header("User-Agent", Headers.USER_AGENT)
                 .header("Cookie", cookie)
                 .header("tenantId", CpDaily.TENANT_ID)
                 .header("Cpdaily-Extension", CpDaily.CP_EXTENSION)

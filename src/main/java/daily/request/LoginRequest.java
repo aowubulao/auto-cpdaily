@@ -91,7 +91,6 @@ public class LoginRequest {
         Map<String, Object> loginMap = new HashMap<>();
         loginMap.put("username", username);
         loginMap.put("password", password);
-        loginMap.put("rememberMe", "on");
         loginMap.put("lt", lt);
         loginMap.put("dllt", "userNamePasswordLogin");
         loginMap.put("execution", "e1s1");

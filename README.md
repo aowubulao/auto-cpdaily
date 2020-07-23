@@ -2,13 +2,19 @@
 
 ### 0、版本
 
-此脚本分为两个版本，一个是普通版：[链接](https://github.com/aowubulao/auto-cpdaily/tree/master)，普通版需要程序一直在电脑的后台运行，开箱即用，适合有服务器的人使用。
+此脚本分为两个版本
 
-现在浏览的版本是云函数版：[链接](https://github.com/aowubulao/auto-cpdaily/tree/serverless)，云函数版可以通过将文件上传到腾讯云函数，定时执行，不需要有服务器，也是基本免费的。
+现在浏览的版本是云函数版：云函数版可以通过将文件上传到腾讯云函数，定时执行，不需要有服务器，也是基本免费的。
+
+另一个是普通版：[链接](https://github.com/aowubulao/auto-cpdaily/tree/master)，普通版需要程序一直在电脑的后台运行，开箱即用，适合有服务器的人使用。
 
 
 
 ### 1、使用前
+
+**有任何问题可以联系我：me@neow.cc**
+
+**或者在此页面提issue**
 
 目前只适用于西南大学晨晚检签到系统
 
@@ -16,13 +22,13 @@
 
 文档图片打不开的可以看这：[链接](https://blog.neoniou.com/posts/auto-serverless-readme/)
 
+------
+
 
 
 ### 2、下载
 
 [下载链接1](http://106.13.179.26/serverless.zip)
-
-[下载链接2](https://github.com/aowubulao/auto-cpdaily/releases/) （serverless.zip）
 
 解压后目录：
 

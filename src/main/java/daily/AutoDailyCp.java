@@ -27,12 +27,10 @@ public class AutoDailyCp {
         kv = getProps();
 
         String cookie = LoginRequest.login(kv.getUsername(), kv.getPassword());
-
         if (cookie == null) {
             log.error("登录账户密码错误！");
             return;
         }
-
         SignRequest signRequest = new SignRequest(kv.getLongitude(), kv.getLatitude(), kv.getPosition());
 
         signRequest.setCookie(cookie);
