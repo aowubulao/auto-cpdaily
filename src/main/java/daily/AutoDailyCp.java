@@ -1,15 +1,17 @@
 package daily;
 
-import cn.hutool.core.date.DateTime;
+import daily.constant.CpDaily;
 import daily.pojo.MessageBox;
 import daily.request.LoginRequest;
 import daily.request.SignRequest;
+import daily.util.DesUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 /**
  * @author Neo.Zzj
@@ -18,13 +20,21 @@ import java.util.Properties;
 @Slf4j
 public class AutoDailyCp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         new AutoDailyCp().mainHandler(new KeyValueClass());
     }
 
-    public void mainHandler(KeyValueClass kv) {
+    public void mainHandler(KeyValueClass kv) throws Exception {
         log.info("程序启动... By Neo");
         kv = getProps();
+
+        String replace = CpDaily.CP_EXTENSION.replace("r1", UUID.randomUUID().toString())
+                        .replace("r2", kv.getLongitude())
+                        .replace("r3", kv.getLatitude())
+                        .replace("r4", kv.getUsername());
+        String cpExtension = DesUtil.encode(replace);
+
+        log.info("cp-ex: {}", cpExtension);
 
         String cookie = LoginRequest.login(kv.getUsername(), kv.getPassword());
         if (cookie == null) {
@@ -45,7 +55,7 @@ public class AutoDailyCp {
             for (MessageBox message : messages) {
                 String extraFieldItemWid = signRequest.getExtraFieldItemWid(message.getSignInstanceWid(), message.getSignWid());
 
-                if (signRequest.submitForm(message.getSignInstanceWid(), extraFieldItemWid)) {
+                if (signRequest.submitForm(message.getSignInstanceWid(), extraFieldItemWid, cpExtension)) {
                     successNum++;
                     log.info("[{}]签到成功", message.getSignInstanceWid());
                 } else {

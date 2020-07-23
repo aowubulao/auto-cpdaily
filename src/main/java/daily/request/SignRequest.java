@@ -72,7 +72,7 @@ public class SignRequest {
         return DateUtil.parse(DateUtil.format(new Date(), "yyyy-MM-dd") + " " + str).toString();
     }
 
-    public boolean submitForm(String signInstanceWid, String extraFieldItemWid) {
+    public boolean submitForm(String signInstanceWid, String extraFieldItemWid, String cpExtension) {
         String signInfo = "{\"signInstanceWid\":\"siWid\",\"longitude\":r1,\"latitude\":r2,\"isMalposition\":1," +
                 "\"abnormalReason\":\"\",\"signPhotoUrl\":\"\",\"position\":\"local\"," +
                 "\"isNeedExtra\":1,\"" +
@@ -85,9 +85,8 @@ public class SignRequest {
 
         HttpResponse response = HttpRequest.post(DailyApi.SUBMIT_FORM)
                 .header("Content-Type", Headers.CONTENT_TYPE)
-                .header("Cookie", cookie)
                 .header("tenantId", CpDaily.TENANT_ID)
-                .header("Cpdaily-Extension", CpDaily.CP_EXTENSION)
+                .header("Cpdaily-Extension", cpExtension)
                 .body(body)
                 .execute();
 
