@@ -56,7 +56,9 @@ public class LoginRequest {
             HttpResponse moveRes = HttpRequest.get(loginRes.header("Location"))
                     .cookie(cookies.toString())
                     .execute();
+
             cookies = moveRes.getCookies();
+            System.out.println(cookies);
         } else {
             // 跳转最终获取 Cookie
             HttpResponse moveRes = HttpRequest.get(indexRes.header("Location"))

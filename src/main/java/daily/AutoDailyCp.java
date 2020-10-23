@@ -41,6 +41,7 @@ public class AutoDailyCp {
             log.error("登录账户密码错误！");
             return;
         }
+        log.info("Cookie : {}", cookie);
         SignRequest signRequest = new SignRequest(kv.getLongitude(), kv.getLatitude(), kv.getPosition());
 
         signRequest.setCookie(cookie);

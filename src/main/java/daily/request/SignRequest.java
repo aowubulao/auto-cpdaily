@@ -31,6 +31,7 @@ public class SignRequest {
     private static String   cookie;
 
     private static final String UNSIGNED_TASKS = "unSignedTasks";
+    private static final String SIGNED_TASKS = "signedTasks";
     private static final String DATAS = "datas";
     private static final String SUCCESS = "SUCCESS";
     private static final String MESSAGE = "message";
@@ -51,13 +52,14 @@ public class SignRequest {
                 .header("Cookie", cookie)
                 .body("{\"pageSize\": 10,\"pageNumber\": 1}")
                 .execute().body();
+        System.out.println(responseBody);
+
         Object datas = JSONUtil.parseObj(JSONUtil.parseObj(responseBody).get(DATAS)).get(UNSIGNED_TASKS);
         JSONArray jsonArray = JSONUtil.parseArray(datas);
 
         List<MessageBox> messages = new ArrayList<>();
         for (Object msg : jsonArray) {
             MessageBox message = JSONUtil.toBean(msg.toString(), MessageBox.class);
-
             DateTime startTime = DateUtil.parse(generateTime(message.getRateTaskBeginTime()));
             DateTime endTime = DateUtil.parse(generateTime(message.getRateTaskEndTime()));
             if (message.getCurrentTime().after(startTime) && message.getCurrentTime().before(endTime)) {

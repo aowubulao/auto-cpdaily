@@ -7,14 +7,14 @@ package daily.constant;
 public interface DailyApi {
 
     String SWU_INDEX = "http://authserverxg.swu.edu.cn/authserver/login" +
-            "?service=https://swu.cpdaily.com/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
+            "?service=https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
 
     String SWU_LOGIN = "http://authserverxg.swu.edu.cn/authserver/login;sessionId" +
-            "?service=https://swu.cpdaily.com/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
+            "?service=https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
 
-    String GET_MESSAGE = "https://swu.cpdaily.com/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
+    String GET_MESSAGE = "https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
 
-    String GET_FORM = "https://swu.cpdaily.com/wec-counselor-sign-apps/stu/sign/detailSignInstance";
+    String GET_FORM = "https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/detailSignInstance";
 
-    String SUBMIT_FORM = "https://swu.cpdaily.com/wec-counselor-sign-apps/stu/sign/submitSign";
+    String SUBMIT_FORM = "https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/submitSign";
 }
