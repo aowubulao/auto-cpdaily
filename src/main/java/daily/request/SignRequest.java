@@ -9,13 +9,14 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import daily.pojo.MessageBox;
 import daily.constant.CpDaily;
-import daily.constant.DailyApi;
 import daily.constant.Headers;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static daily.AutoDailyCp.apis;
 
 /**
  * @author Neo.Zzj
@@ -47,12 +48,11 @@ public class SignRequest {
     }
 
     public List<MessageBox> getMessage() {
-        String responseBody = HttpRequest.post(DailyApi.GET_MESSAGE)
+        String responseBody = HttpRequest.post(apis.getGetMessage())
                 .header("Content-Type", "application/json")
                 .header("Cookie", cookie)
                 .body("{\"pageSize\": 10,\"pageNumber\": 1}")
                 .execute().body();
-        System.out.println(responseBody);
 
         Object datas = JSONUtil.parseObj(JSONUtil.parseObj(responseBody).get(DATAS)).get(UNSIGNED_TASKS);
         JSONArray jsonArray = JSONUtil.parseArray(datas);
@@ -85,7 +85,7 @@ public class SignRequest {
                 .replace("r2", latitude)
                 .replace("local", position);
 
-        HttpResponse response = HttpRequest.post(DailyApi.SUBMIT_FORM)
+        HttpResponse response = HttpRequest.post(apis.getSubmitForm())
                 .header("Content-Type", Headers.CONTENT_TYPE)
                 .header("tenantId", CpDaily.TENANT_ID)
                 .header("Cpdaily-Extension", cpExtension)
@@ -93,7 +93,7 @@ public class SignRequest {
                 .execute();
 
         String responseBody = response.body();
-        log.info("签到后的返回信息：{}", responseBody);
+        log.info("签到后的返回信息：[{}]", responseBody);
 
         boolean flag = false;
         try {
@@ -109,7 +109,7 @@ public class SignRequest {
     }
 
     public String getExtraFieldItemWid(String signInstanceWid, String signWid) {
-        String responseBody = HttpRequest.post(DailyApi.GET_FORM)
+        String responseBody = HttpRequest.post(apis.getGetForm())
                 .header("Content-Type", "application/json")
                 .header("Cookie", cookie)
                 .body("{\"signInstanceWid\":\"" + signInstanceWid + "\",\"signWid\":\"" + signWid + "\"}")
