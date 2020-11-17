@@ -7,6 +7,7 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import daily.AutoDailyCp;
 import daily.pojo.MessageBox;
 import daily.constant.CpDaily;
 import daily.constant.Headers;
@@ -15,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static daily.AutoDailyCp.apis;
 
 /**
  * @author Neo.Zzj
@@ -48,7 +47,7 @@ public class SignRequest {
     }
 
     public List<MessageBox> getMessage() {
-        String responseBody = HttpRequest.post(apis.getGetMessage())
+        String responseBody = HttpRequest.post(AutoDailyCp.info.getSignGetMessage())
                 .header("Content-Type", "application/json")
                 .header("Cookie", cookie)
                 .body("{\"pageSize\": 10,\"pageNumber\": 1}")
@@ -85,7 +84,7 @@ public class SignRequest {
                 .replace("r2", latitude)
                 .replace("local", position);
 
-        HttpResponse response = HttpRequest.post(apis.getSubmitForm())
+        HttpResponse response = HttpRequest.post(AutoDailyCp.info.getSignSubmitForm())
                 .header("Content-Type", Headers.CONTENT_TYPE)
                 .header("tenantId", CpDaily.TENANT_ID)
                 .header("Cpdaily-Extension", cpExtension)
@@ -109,7 +108,7 @@ public class SignRequest {
     }
 
     public String getExtraFieldItemWid(String signInstanceWid, String signWid) {
-        String responseBody = HttpRequest.post(apis.getGetForm())
+        String responseBody = HttpRequest.post(AutoDailyCp.info.getSignGetForm())
                 .header("Content-Type", "application/json")
                 .header("Cookie", cookie)
                 .body("{\"signInstanceWid\":\"" + signInstanceWid + "\",\"signWid\":\"" + signWid + "\"}")

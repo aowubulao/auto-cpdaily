@@ -37,7 +37,9 @@ public class AutoDailyCp {
         log.info("程序启动... By Neo");
 
         // 初始化
+        log.info("程序初始化中...");
         if(!InitialRequest.initial()) {
+            log.error("初始化失败");
             return;
         }
 
@@ -49,10 +51,10 @@ public class AutoDailyCp {
 
         String cookie = LoginRequest.login(info.getUsername(), info.getPassword());
         if (cookie == null) {
-            log.error("登录账户密码错误！");
+            log.error("用户名或密码错误, 登陆失败");
             return;
         }
-        log.info("此次Cookie : [{}]", cookie);
+        log.info("今日校园登陆成功");
         SignRequest signRequest = new SignRequest(info.getLongitude(), info.getLatitude(), info.getPosition());
 
         signRequest.setCookie(cookie);

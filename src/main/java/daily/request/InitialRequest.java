@@ -1,13 +1,16 @@
 package daily.request;
 
 import cn.hutool.http.HttpRequest;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import daily.AutoDailyCp;
 import daily.pojo.BaseInfo;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -20,6 +23,10 @@ public class InitialRequest {
     private static final String GET_VERSION = "https://api.neoniou.com/client/daily/v2/getVersion";
 
     private static final String UPDATE_API = "https://api.neoniou.com/client/daily/v2/getApi";
+
+    private static final String VERSION = "apiVersion";
+
+    private static final String MSG = "authorMsg";
 
     private static final String CP_EXTENSION = "{\"systemName\":\"android\",\"systemVersion\":\"10\",\"model\":\"Mi 10\"" +
             ",\"deviceId\":\"r1\",\"appVersion\":" +
@@ -81,14 +88,20 @@ public class InitialRequest {
 
     private static boolean isNeedUpdate() {
         try {
-            String version = HttpRequest.get(GET_VERSION)
+            String body = HttpRequest.get(GET_VERSION)
                     .execute()
                     .body();
+            JSONObject resInfo = JSONUtil.parseObj(body);
+            log.info("作者有句话想说：[{}]", resInfo.get(MSG));
+
+            String version = resInfo.get(VERSION).toString();
             if (Integer.parseInt(version) > Integer.parseInt(AutoDailyCp.info.getApiVersion())) {
-                log.info("有新版Api，准备进行更新: {} -> {}", AutoDailyCp.info.getApiVersion(), version);
+                log.info("有新版Api，准备进行更新: [{}]->[{}]", AutoDailyCp.info.getApiVersion(), version);
                 return true;
+            } else {
+                log.info("当前Api已是最新版, 版本: [{}]", version);
+                return false;
             }
-            return false;
         } catch (Exception e) {
             log.info("获取版本失败: ", e);
             return false;
@@ -112,9 +125,7 @@ public class InitialRequest {
         }
 
         Properties props = new Properties();
-        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("api.properties");
         try {
-            props.load(is);
             props.setProperty("swuIndex", newInfo.getSwuIndex());
             props.setProperty("swuLogin", newInfo.getSwuLogin());
 
@@ -127,6 +138,9 @@ public class InitialRequest {
             props.setProperty("attendanceSubmitForm", newInfo.getAttendanceSubmitForm());
 
             props.setProperty("apiVersion", newInfo.getApiVersion());
+
+            String path = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("api.properties")).toString();
+            props.store(new FileOutputStream(path.substring(6)), null);
         } catch (Exception e) {
             log.info("写入api.properties失败: ", e);
         }

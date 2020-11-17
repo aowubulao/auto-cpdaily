@@ -2,6 +2,7 @@ package daily.request;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import daily.AutoDailyCp;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static daily.AutoDailyCp.apis;
 
 /**
  * @author Neo.Zzj
@@ -26,7 +26,7 @@ public class LoginRequest {
 
     public static String login(String username, String password) {
         // 首页信息
-        HttpResponse indexRes = HttpRequest.get(apis.getSwuIndex())
+        HttpResponse indexRes = HttpRequest.get(AutoDailyCp.info.getSwuIndex())
                 .header("Cookie", "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE=zh_CN")
                 .execute();
 
@@ -38,7 +38,7 @@ public class LoginRequest {
             // 替换登录 url
             cookies = indexRes.getCookies();
             String sessionId = cookies.get(0).toString();
-            String loginUrl = apis.getSwuLogin().replace("sessionId", sessionId);
+            String loginUrl = AutoDailyCp.info.getSwuLogin().replace("sessionId", sessionId);
 
             // 登录步骤 1
             HttpResponse loginRes = HttpRequest.post(loginUrl)
