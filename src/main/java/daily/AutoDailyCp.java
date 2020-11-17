@@ -3,8 +3,10 @@ package daily;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONUtil;
 import daily.constant.CpDaily;
+import daily.pojo.BaseInfo;
 import daily.pojo.DailyApi;
 import daily.pojo.MessageBox;
+import daily.request.InitialRequest;
 import daily.request.LoginRequest;
 import daily.request.SignRequest;
 import daily.util.DesUtil;
@@ -25,27 +27,33 @@ public class AutoDailyCp {
 
     public static DailyApi apis;
 
+    public static BaseInfo info;
+
     public static void main(String[] args) throws Exception {
-        new AutoDailyCp().mainHandler(new KeyValueClass());
+        new AutoDailyCp().mainHandler();
     }
 
-    public void mainHandler(KeyValueClass kv) throws Exception {
+    public void mainHandler() throws Exception {
         log.info("程序启动... By Neo");
-        kv = getProps();
+
+        // 初始化
+        if(!InitialRequest.initial()) {
+            return;
+        }
 
         String replace = CpDaily.CP_EXTENSION.replace("r1", UUID.randomUUID().toString())
-                        .replace("r2", kv.getLongitude())
-                        .replace("r3", kv.getLatitude())
-                        .replace("r4", kv.getUsername());
+                        .replace("r2", info.getLongitude())
+                        .replace("r3", info.getLatitude())
+                        .replace("r4", info.getUsername());
         String cpExtension = DesUtil.encode(replace);
 
-        String cookie = LoginRequest.login(kv.getUsername(), kv.getPassword());
+        String cookie = LoginRequest.login(info.getUsername(), info.getPassword());
         if (cookie == null) {
             log.error("登录账户密码错误！");
             return;
         }
         log.info("此次Cookie : [{}]", cookie);
-        SignRequest signRequest = new SignRequest(kv.getLongitude(), kv.getLatitude(), kv.getPosition());
+        SignRequest signRequest = new SignRequest(info.getLongitude(), info.getLatitude(), info.getPosition());
 
         signRequest.setCookie(cookie);
         List<MessageBox> messages = signRequest.getMessage();
@@ -68,48 +76,5 @@ public class AutoDailyCp {
             }
             log.info("签到完成, 成功[{}]条, 失败[{}]条", successNum, messages.size() - successNum);
         }
-    }
-
-    private KeyValueClass getProps() {
-        Properties props = new Properties();
-        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("daily.properties");
-        KeyValueClass kv = new KeyValueClass();
-        try {
-            props.load(is);
-            kv.setUsername(props.getProperty("username"));
-            kv.setPassword(props.getProperty("password"));
-            kv.setLongitude(props.getProperty("longitude"));
-            kv.setLatitude(props.getProperty("latitude"));
-            kv.setPosition(props.getProperty("position"));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Initial
-        apis = new DailyApi();
-        apis.setSwuIndex("http://authserverxg.swu.edu.cn/authserver/login?" +
-                "service=https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay");
-        apis.setSwuLogin("http://authserverxg.swu.edu.cn/authserver/login;sessionId" +
-                "?service=https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay");
-        apis.setGetMessage("https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/queryDailySginTasks");
-        apis.setGetForm("https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/detailSignTaskInst");
-        apis.setSubmitForm("https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/completeSignIn");
-
-        // Get apis from server
-        try {
-            log.info("从服务器获取最新Api地址中...");
-            String res = HttpRequest.get("https://api.neoniou.com/client/daily/getApis?username=" + kv.getUsername())
-                    .execute().body();
-            DailyApi resApi = JSONUtil.toBean(res, DailyApi.class);
-
-            log.info("获取到Api地址，更新时间：[{}]", resApi.getUpdateTime());
-            apis = resApi;
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.warn("未能从服务器获取到Api地址，将使用本地保存的地址");
-        }
-
-        return kv;
     }
 }
