@@ -1,10 +1,7 @@
 package daily;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.json.JSONUtil;
 import daily.constant.CpDaily;
 import daily.pojo.BaseInfo;
-import daily.pojo.DailyApi;
 import daily.pojo.MessageBox;
 import daily.request.InitialRequest;
 import daily.request.LoginRequest;
@@ -12,10 +9,7 @@ import daily.request.SignRequest;
 import daily.util.DesUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 
 /**
@@ -24,8 +18,6 @@ import java.util.UUID;
  */
 @Slf4j
 public class AutoDailyCp {
-
-    public static DailyApi apis;
 
     public static BaseInfo info;
 
