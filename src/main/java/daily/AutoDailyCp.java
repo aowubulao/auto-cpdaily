@@ -22,10 +22,10 @@ public class AutoDailyCp {
     public static BaseInfo info;
 
     public static void main(String[] args) throws Exception {
-        new AutoDailyCp().mainHandler();
+        new AutoDailyCp().mainHandler(new KeyValueClass());
     }
 
-    public void mainHandler() throws Exception {
+    public void mainHandler(KeyValueClass kv) throws Exception {
         log.info("程序启动... By Neo");
 
         // 初始化
@@ -70,5 +70,9 @@ public class AutoDailyCp {
             }
             log.info("签到完成, 成功[{}]条, 失败[{}]条", successNum, messages.size() - successNum);
         }
+    }
+
+    private static class KeyValueClass {
+
     }
 }
