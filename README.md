@@ -12,7 +12,7 @@
 
 ### 1、使用
 
-下载：[下载链接1](http://106.13.179.26/serverless.zip)
+下载：[下载链接1](http://106.14.251.237/serverless.zip)
 
 请查看使用手册：https://blog.neoniou.com/posts/auto-serverless-readme/
 
