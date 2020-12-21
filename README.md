@@ -14,6 +14,8 @@
 
 下载：[下载链接1](http://106.14.251.237/serverless.zip)
 
+备用下载链接：[备用链接](http://neowmoe.huangenet.cn/download/serverless.zip)
+
 请查看使用手册：https://blog.neoniou.com/posts/auto-serverless-readme/
 
 
