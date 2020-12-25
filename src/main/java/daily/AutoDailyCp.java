@@ -40,8 +40,8 @@ public class AutoDailyCp {
                         .replace("r3", info.getLatitude())
                         .replace("r4", info.getUsername());
         String cpExtension = DesUtil.encode(replace);
-
         String cookie = LoginRequest.login(info.getUsername(), info.getPassword());
+
         if (cookie == null) {
             log.error("用户名或密码错误, 登陆失败");
             return;
