@@ -5,6 +5,7 @@ import daily.pojo.BaseInfo;
 import daily.pojo.MessageBox;
 import daily.request.InitialRequest;
 import daily.request.LoginRequest;
+import daily.request.ServerChanRequest;
 import daily.request.SignRequest;
 import daily.util.DesUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,16 @@ public class AutoDailyCp {
     }
 
     public void mainHandler(KeyValueClass kv) throws Exception {
+        try {
+            startApplication();
+        } catch (Exception e) {
+            log.error("打卡失败，错误信息：", e);
+            ServerChanRequest.sendMessage("今日校园自动打卡失败啦QAQ！",
+                    "如果一直打卡失败的话，可以去github上看看有没有新版本，或者发送邮件到：me@neow.cc 提醒作者更新");
+        }
+    }
+
+    private static void startApplication() throws Exception {
         log.info("程序启动... By Neo");
 
         // 初始化
@@ -36,9 +47,9 @@ public class AutoDailyCp {
         }
 
         String replace = CpDaily.CP_EXTENSION.replace("r1", UUID.randomUUID().toString())
-                        .replace("r2", info.getLongitude())
-                        .replace("r3", info.getLatitude())
-                        .replace("r4", info.getUsername());
+                .replace("r2", info.getLongitude())
+                .replace("r3", info.getLatitude())
+                .replace("r4", info.getUsername());
         String cpExtension = DesUtil.encode(replace);
         String cookie = LoginRequest.login(info.getUsername(), info.getPassword());
 
@@ -69,6 +80,8 @@ public class AutoDailyCp {
                 }
             }
             log.info("签到完成, 成功[{}]条, 失败[{}]条", successNum, messages.size() - successNum);
+            ServerChanRequest.sendMessage("来自今日校园自动打卡的通知=w=",
+                    "成功了" + successNum + "条" + "，失败了" + (messages.size() - successNum) + "条");
         }
     }
 

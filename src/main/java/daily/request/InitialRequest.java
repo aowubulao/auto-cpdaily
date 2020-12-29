@@ -1,16 +1,11 @@
 package daily.request;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import daily.AutoDailyCp;
 import daily.pojo.BaseInfo;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -36,7 +31,7 @@ public class InitialRequest {
             AutoDailyCp.info.setLongitude(props.getProperty("longitude"));
             AutoDailyCp.info.setLatitude(props.getProperty("latitude"));
             AutoDailyCp.info.setPosition(props.getProperty("position"));
-
+            AutoDailyCp.info.setScKey(props.getProperty("scKey"));
             return true;
         } catch (IOException e) {
             log.info("读取daily.properties错误: ", e);

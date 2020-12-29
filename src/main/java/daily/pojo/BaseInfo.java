@@ -36,4 +36,6 @@ public class BaseInfo {
     private String attendanceSubmitForm;
 
     private String apiVersion;
+
+    private String scKey;
 }
