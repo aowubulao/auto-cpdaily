@@ -2,7 +2,6 @@ package daily.request;
 
 import cn.hutool.http.HttpRequest;
 import daily.AutoDailyCp;
-import daily.pojo.BaseInfo;
 
 /**
  * @author Neo.Zzj
@@ -17,9 +16,11 @@ public class ServerChanRequest {
     }
 
     public static void sendMessage(String message, String description) {
-        HttpRequest.post(URL)
-                .form("text", message)
-                .form("desp", description)
-                .execute();
+        if (!"".equals(AutoDailyCp.info.getScKey())) {
+            HttpRequest.post(URL)
+                    .form("text", message)
+                    .form("desp", description)
+                    .execute();
+        }
     }
 }
