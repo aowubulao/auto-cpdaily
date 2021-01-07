@@ -18,7 +18,7 @@ import java.util.Base64;
  */
 public class DesUtil {
 
-    private static final String DEFAULT_KEY = "ST83=@XV";
+    private static final String DEFAULT_KEY = "b3L26XNL";
     private static final byte[] IV = {1, 2, 3, 4, 5, 6, 7, 8};
 
     private static final String CHARSET_NAME = "utf-8";

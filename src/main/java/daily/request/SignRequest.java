@@ -74,9 +74,10 @@ public class SignRequest {
     }
 
     public boolean submitForm(String signInstanceWid, String extraFieldItemWid, String cpExtension) {
-        String signInfo = "{\"signInstanceWid\":\"siWid\",\"longitude\":r1,\"latitude\":r2,\"isMalposition\":1," +
-                "\"abnormalReason\":\"\",\"signPhotoUrl\":\"\",\"position\":\"local\"," +
-                "\"isNeedExtra\":1,\"" +
+
+        String signInfo = "{\"longitude\":r1,\"latitude\":r2,\"isMalposition\":1,\"abnormalReason\":\"\"," +
+                "\"signPhotoUrl\":\"\",\"isNeedExtra\":1,\"position\":\"local\"," +
+                "\"uaIsCpadaily\":true,\"signInstanceWid\":\"siWid\",\"" +
                 "extraFieldItems\":[{\"extraFieldItemValue\":\"正常，<37.2℃\",\"extraFieldItemWid\":itemId}]}";
         String body = signInfo.replace("siWid", signInstanceWid)
                 .replace("itemId", extraFieldItemWid)

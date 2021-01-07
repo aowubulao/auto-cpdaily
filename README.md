@@ -2,7 +2,7 @@
 
 ### 1、使用
 
-下载：[下载链接1](http://106.14.251.237/serverless.zip)
+下载：[下载链接1](https://share.neoniou.com/serverless.zip)
 
 备用下载链接：[备用链接](http://neowmoe.huangenet.cn/download/serverless.zip)
 
@@ -11,6 +11,10 @@
 
 
 ### 2、更新记录
+
+**2021.01.07**
+
+感谢[链接](https://github.com/ZimoLoveShuang/auto-sign/issues/38)提供的DES key =w=，更新了新的des key
 
 **2020.12.29**
 
