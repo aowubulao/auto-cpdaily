@@ -89,12 +89,14 @@ public class SignRequest {
         String body;
         // 查寝
         if (message.getType() == 1) {
-            body = CpDaily.SUBMIT_INFO.replace("siWid", message.getSignWid())
+            log.info("===查寝===");
+            body = CpDaily.SUBMIT_INFO.replace("siWid", message.getSignInstanceWid())
                     .replace("r1", longitude)
                     .replace("r2", latitude)
                     .replace("local", position);
         } else {
-            body = CpDaily.SIGN_INFO.replace("siWid", message.getSignWid())
+            log.info("===签到===");
+            body = CpDaily.SIGN_INFO.replace("siWid", message.getSignInstanceWid())
                     .replace("itemId", getExtraFieldItemWid(message.getSignInstanceWid(), message.getSignWid()))
                     .replace("r1", longitude)
                     .replace("r2", latitude)

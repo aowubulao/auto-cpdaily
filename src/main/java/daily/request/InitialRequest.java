@@ -33,7 +33,7 @@ public class InitialRequest {
             AutoDailyCp.info.setPosition(props.getProperty("position"));
             AutoDailyCp.info.setScKey(props.getProperty("scKey"));
             AutoDailyCp.info.setActiveAttendance(true);
-            AutoDailyCp.info.setActiveAttendance(Boolean.getBoolean(props.getProperty("activeAttendance")));
+            AutoDailyCp.info.setActiveAttendance(Boolean.parseBoolean(props.getProperty("activeAttendance")));
             return true;
         } catch (IOException e) {
             log.info("读取daily.properties错误: ", e);

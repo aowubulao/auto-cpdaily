@@ -18,7 +18,7 @@ public class ServerChanRequest {
     }
 
     public static void sendMessage(String message, String description) {
-        if (!AutoDailyCp.info.getScKey().contains(KEY)) {
+        if (AutoDailyCp.info.getScKey().contains(KEY)) {
             HttpRequest.post(URL)
                     .form("text", message)
                     .form("desp", description)
