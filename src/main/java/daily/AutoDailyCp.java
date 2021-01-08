@@ -46,11 +46,7 @@ public class AutoDailyCp {
             return;
         }
 
-        String replace = CpDaily.CP_EXTENSION.replace("r1", UUID.randomUUID().toString())
-                .replace("r2", info.getLongitude())
-                .replace("r3", info.getLatitude())
-                .replace("r4", info.getUsername());
-        String cpExtension = DesUtil.encode(replace);
+        String cpExtension = generateCpExtension();
         String cookie = LoginRequest.login(info.getUsername(), info.getPassword());
 
         if (cookie == null) {
@@ -70,9 +66,7 @@ public class AutoDailyCp {
             int successNum = 0;
 
             for (MessageBox message : messages) {
-                String extraFieldItemWid = signRequest.getExtraFieldItemWid(message.getSignInstanceWid(), message.getSignWid());
-
-                if (signRequest.submitForm(message.getSignInstanceWid(), extraFieldItemWid, cpExtension)) {
+                if (signRequest.submitMessage(message, cpExtension)) {
                     successNum++;
                     log.info("[{}]签到成功", message.getSignInstanceWid());
                 } else {
@@ -85,7 +79,14 @@ public class AutoDailyCp {
         }
     }
 
-    private static class KeyValueClass {
+    private static String generateCpExtension() throws Exception {
+        String replace = CpDaily.CP_EXTENSION.replace("r1", UUID.randomUUID().toString())
+                .replace("r2", info.getLongitude())
+                .replace("r3", info.getLatitude())
+                .replace("r4", info.getUsername());
+        return DesUtil.encode(replace);
+    }
 
+    private static class KeyValueClass {
     }
 }

@@ -11,6 +11,8 @@ import java.util.Date;
 @Data
 public class MessageBox {
 
+    private Integer type;
+
     private String taskName;
 
     private String rateTaskBeginTime;
