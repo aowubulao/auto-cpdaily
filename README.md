@@ -2,9 +2,7 @@
 
 ### 1、使用
 
-下载：[下载链接1](https://share.neoniou.com/serverless.zip)
-
-备用下载链接：[备用链接](http://neowmoe.huangenet.cn/download/serverless.zip)
+下载：[下载链接1](https://share.neoniou.com/serverless/)
 
 请查看使用手册：https://blog.neoniou.com/posts/auto-serverless-readme/
 
