@@ -31,6 +31,7 @@ public class SignRequest {
     private static String   cookie;
 
     private static final String UNSIGNED_TASKS = "unSignedTasks";
+    private static final String LEAVE_TASKS = "leaveTasks";
     private static final String SIGNED_TASKS = "signedTasks";
     private static final String DATAS = "datas";
     private static final String SUCCESS = "SUCCESS";
@@ -77,8 +78,10 @@ public class SignRequest {
                 .header("Cookie", cookie)
                 .body("{\"pageSize\": 10,\"pageNumber\": 1}")
                 .execute().body();
-
-        return JSONUtil.parseObj(responseBody).getJSONObject(DATAS).getJSONArray(UNSIGNED_TASKS);
+        JSONArray unsigned = JSONUtil.parseObj(responseBody).getJSONObject(DATAS).getJSONArray(UNSIGNED_TASKS);
+        JSONArray leave = JSONUtil.parseObj(responseBody).getJSONObject(DATAS).getJSONArray(LEAVE_TASKS);
+        unsigned.addAll(leave);
+        return unsigned;
     }
 
     private String generateTime(String str) {
