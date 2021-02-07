@@ -10,6 +10,7 @@ import daily.request.SignRequest;
 import daily.util.DesUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,9 @@ public class AutoDailyCp {
     public static BaseInfo info;
 
     public static void main(String[] args) throws Exception {
-        new AutoDailyCp().mainHandler(new KeyValueClass());
+        System.out.println(Arrays.toString(args));
+
+        //new AutoDailyCp().mainHandler(new KeyValueClass());
     }
 
     public void mainHandler(KeyValueClass kv) throws Exception {
