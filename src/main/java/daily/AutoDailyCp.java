@@ -10,7 +10,6 @@ import daily.request.SignRequest;
 import daily.util.DesUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,17 +20,20 @@ import java.util.UUID;
 @Slf4j
 public class AutoDailyCp {
 
-    public static BaseInfo info;
+    public static BaseInfo info = null;
+
+    private static final int MIN_PARAMS = 6;
 
     public static void main(String[] args) throws Exception {
-        System.out.println(Arrays.toString(args));
-        System.out.println(args.length);
-        System.out.println("-=-=");
-        for (String s : args) {
-            System.out.println(s);
+        if (args.length < MIN_PARAMS) {
+            log.error("github仓库secret key数量设置错误！");
+            return;
         }
-
-        //new AutoDailyCp().mainHandler(new KeyValueClass());
+        info = new BaseInfo(args[0], args[1], args[2], args[3], args[4], Boolean.parseBoolean(args[5]));
+        if (args.length > MIN_PARAMS) {
+            info.setScKey(args[6]);
+        }
+        new AutoDailyCp().mainHandler(new KeyValueClass());
     }
 
     public void mainHandler(KeyValueClass kv) throws Exception {
@@ -49,7 +51,7 @@ public class AutoDailyCp {
 
         // 初始化
         log.info("程序初始化中...");
-        if(!InitialRequest.initial()) {
+        if (!InitialRequest.initial()) {
             log.error("初始化失败");
             return;
         }

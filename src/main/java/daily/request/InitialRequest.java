@@ -16,9 +16,12 @@ import java.util.Properties;
 public class InitialRequest {
 
     public static boolean initial() {
-        AutoDailyCp.info = new BaseInfo();
-
-        return readDailyProps() && initialApi();
+        if (AutoDailyCp.info == null) {
+            AutoDailyCp.info = new BaseInfo();
+            return readDailyProps() && initialApi();
+        } else {
+            return initialApi();
+        }
     }
 
     private static boolean readDailyProps() {

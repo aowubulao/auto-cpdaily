@@ -40,4 +40,16 @@ public class BaseInfo {
     private String apiVersion;
 
     private String scKey;
+
+    public BaseInfo() {
+    }
+
+    public BaseInfo(String username, String password, String position, String longitude, String latitude, Boolean activeAttendance) {
+        this.username = username;
+        this.password = password;
+        this.position = position;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.activeAttendance = activeAttendance;
+    }
 }
