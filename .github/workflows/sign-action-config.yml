@@ -12,7 +12,7 @@ on:
       - dev
 
 jobs:
-  auto-codaily:
+  auto-cpdaily:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,9 +33,9 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           POSITION: ${{ secrets.POSITION }}
-          LONGITUTDE: ${{ secrets.LONGITUTDE }}
+          LONGITUDE: ${{ secrets.LONGITUDE }}
           LATITUDE: ${{ secrets.LATITUDE }}
           ACTIVEATTENDANCE: ${{ secrets.ACTIVEATTENDANCE }}
           SCKEY: ${{ secrets.SCKEY }}
         run: |
-          mvn compile exec:java -Dexec.mainClass="daily.AutoDailyCp" -Dexec.args="${USERNAME} ${PASSWORD} ${POSITION} ${LONGITUTDE} ${LATITUDE} ${ACTIVEATTENDANCE} ${SCKEY}"
+          mvn compile exec:java -Dexec.mainClass="daily.AutoDailyCp" -Dexec.args="${USERNAME} ${PASSWORD} ${POSITION} ${LONGITUDE} ${LATITUDE} ${ACTIVEATTENDANCE} ${SCKEY}"

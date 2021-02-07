@@ -25,6 +25,11 @@ public class AutoDailyCp {
 
     public static void main(String[] args) throws Exception {
         System.out.println(Arrays.toString(args));
+        System.out.println(args.length);
+        System.out.println("-=-=");
+        for (String s : args) {
+            System.out.println(s);
+        }
 
         //new AutoDailyCp().mainHandler(new KeyValueClass());
     }
