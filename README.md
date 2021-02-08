@@ -1,59 +1,36 @@
-# 今日校园自动签到-云函数版
+# 今日校园自动签到-SWU
 
-### 1、使用
-
-下载：[下载链接1](https://share.neoniou.com/serverless/)
-
-请查看使用手册：https://blog.neoniou.com/posts/auto-serverless-readme/
+用于swu的今日校园打卡脚本
 
 
 
-### 2、更新记录
+## 说明
 
-**2021.01.24**
+此仓库仅用于学习使用，请勿用于非法用途
 
-修复了请假后无法打卡的问题
+有问题可联系邮箱：me@neow.cc
 
-**2021.01.08**
+## 使用
 
-**重要更新：可以提交查寝了**（虽然已经放假了=w=），具体可以在配置文件中设置是否启用。**查寝的话经纬度需要在查寝范围内**。
+脚本支持两种方式的打卡：
 
-目前在测试中，应该没有问题。
+- **腾讯云函数**
 
-**2021.01.07**
+- **Github Action**（基本稳定）
 
-感谢[链接](https://github.com/ZimoLoveShuang/auto-sign/issues/38)提供的DES key =w=，更新了新的des key
+  请选择适合自己的方式
 
-**2020.12.29**
+#### 腾讯云函数
 
-增加了server酱的推送，可以将打卡结果推送到微信，下载最新版，然后[使用链接](https://blog.neoniou.com/posts/auto-serverless-readme/#6%E3%80%81%E9%85%8D%E7%BD%AE-Server%E9%85%B1%E6%8E%A8%E9%80%81)
+使用手册：https://blog.neoniou.com/posts/auto-serverless-readme/
 
-**2020.12.25**
+#### Github Action
 
-删除了很蠢的更新机制，更新了API，以后如果打卡失败请及时提醒我更新API。
+本方法的定时任务可能会有一定的延迟，不过不影响打卡
 
-关于腾讯云函数登录失败的问题，把定时任务执行的cron表达式改为：
+[使用教程](./docs/how-to-usegithub-action.md)
 
-```
-0 0 9,20 * * * *
-```
+## 其他
 
-这表示每天9点、20点执行一次。
-
-**2020.12.1**
-
-新版
-
-**2020.10.30**
-
-更新了今日校园新的API
-
-更新了从服务器获取最新API的逻辑，后续如果今日校园API再有变动，不用重新下载安装程序，只需等待服务端热更新API
-
-**2020.10.23**
-
-更新了今日校园新的API
-
-**2020.7.23**
-
-更新同一设备登录无法签到的问题
+- 更新记录：[链接](./docs/update-log.md)
+- releases(用于云函数)：[链接](https://github.com/aowubulao/auto-cpdaily/releases)
