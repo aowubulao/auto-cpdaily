@@ -28,7 +28,7 @@
 
 本方法的定时任务可能会有一定的延迟，不过不影响打卡
 
-[使用教程](./docs/how-to-usegithub-action.md)
+[使用教程](./docs/how-to-usegithub-action.md) 
 
 ## 其他
 
