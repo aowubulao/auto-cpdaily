@@ -21,7 +21,8 @@ public class ServerChanRequest {
     }
 
     public static void sendMessage(String message, String description) {
-        if (AutoDailyCp.info.getScKey().contains(KEY)) {
+        String scKey = AutoDailyCp.info.getScKey();
+        if (scKey != null && scKey.contains(KEY)) {
             log.info("发送server酱通知消息至微信");
 
             try {

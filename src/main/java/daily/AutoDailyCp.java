@@ -23,19 +23,36 @@ public class AutoDailyCp {
     public static BaseInfo info = null;
 
     private static final int MIN_PARAMS = 6;
+    private static final int ZERO = 0;
 
+    /**
+     * Github Action以及测试用入口
+     *
+     * @param args Secret 参数
+     * @throws Exception 异常
+     */
     public static void main(String[] args) throws Exception {
-        if (args.length < MIN_PARAMS) {
+        int length = args.length;
+
+        // 参数大于0小于6则参数不完整，参数大于6则存在scKey，需要推送
+        if (length < MIN_PARAMS && length > ZERO) {
             log.error("github仓库secret key数量设置错误！");
             return;
-        }
-        info = new BaseInfo(args[0], args[1], args[2], args[3], args[4], Boolean.parseBoolean(args[5]));
-        if (args.length > MIN_PARAMS) {
-            info.setScKey(args[6]);
+        } else if (length >= MIN_PARAMS) {
+            info = new BaseInfo(args[0], args[1], args[2], args[3], args[4], Boolean.parseBoolean(args[5]));
+            if (length > MIN_PARAMS) {
+                info.setScKey(args[6]);
+            }
         }
         new AutoDailyCp().mainHandler(new KeyValueClass());
     }
 
+    /**
+     * 腾讯云函数入口
+     *
+     * @param kv 腾讯云函数必须使用的一个类，无实际作用
+     * @throws Exception 异常
+     */
     public void mainHandler(KeyValueClass kv) throws Exception {
         try {
             startApplication();
