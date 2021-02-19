@@ -25,18 +25,18 @@ public class DesUtil {
     private static final String DES = "DES";
     private static final String CIPHER_NAME = "DES/CBC/PKCS5Padding";
 
-    private static byte[] DESEncrypt(String data, String key, byte[] iv) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
+    private static byte[] encrypt(String data) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
         Cipher cipher = Cipher.getInstance(CIPHER_NAME);
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_NAME), DES);
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        SecretKeySpec secretKeySpec = new SecretKeySpec(DEFAULT_KEY.getBytes(CHARSET_NAME), DES);
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(IV);
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
         return cipher.doFinal(data.getBytes(CHARSET_NAME));
     }
 
-    private static String DESDecrypt(byte[] data, String key, byte[] iv) throws UnsupportedEncodingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    private static String decrypt(byte[] data) throws UnsupportedEncodingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance(CIPHER_NAME);
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_NAME), DES);
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        SecretKeySpec secretKeySpec = new SecretKeySpec(DEFAULT_KEY.getBytes(CHARSET_NAME), DES);
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(IV);
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
         return new String(cipher.doFinal(data), CHARSET_NAME);
     }
@@ -50,10 +50,10 @@ public class DesUtil {
     }
 
     public static String encode(String data) throws NoSuchPaddingException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, IllegalBlockSizeException, UnsupportedEncodingException, InvalidKeyException {
-        return base64Encrypt(DESEncrypt(data, DEFAULT_KEY, IV));
+        return base64Encrypt(encrypt(data));
     }
 
     public static String decode(String data) throws UnsupportedEncodingException, NoSuchPaddingException, InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
-        return DESDecrypt(base64Decrypt(data), DEFAULT_KEY, IV);
+        return decrypt(base64Decrypt(data));
     }
 }

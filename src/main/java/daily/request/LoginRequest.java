@@ -3,6 +3,7 @@ package daily.request;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import daily.AutoDailyCp;
+import daily.constant.CpDailyApi;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,9 +25,16 @@ public class LoginRequest {
 
     private static String lt;
 
+    /**
+     * 根据用户名密码登录
+     *
+     * @param username 用户名（学号）
+     * @param password 密码
+     * @return 登录后的Cookie, 返回null为登录失败
+     */
     public static String login(String username, String password) {
         // 首页信息
-        HttpResponse indexRes = HttpRequest.get(AutoDailyCp.info.getSwuIndex())
+        HttpResponse indexRes = HttpRequest.get(CpDailyApi.SWU_INDEX)
                 .header("Cookie", "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE=zh_CN")
                 .execute();
 
@@ -38,7 +46,7 @@ public class LoginRequest {
             // 替换登录 url
             cookies = indexRes.getCookies();
             String sessionId = cookies.get(0).toString();
-            String loginUrl = AutoDailyCp.info.getSwuLogin().replace("sessionId", sessionId);
+            String loginUrl = CpDailyApi.SWU_LOGIN.replace("sessionId", sessionId);
 
             // 登录步骤 1
             HttpResponse loginRes = HttpRequest.post(loginUrl)

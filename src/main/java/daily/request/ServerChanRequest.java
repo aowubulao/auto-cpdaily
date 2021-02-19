@@ -2,7 +2,6 @@ package daily.request;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import daily.AutoDailyCp;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -12,21 +11,33 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServerChanRequest {
 
-    private static final String URL;
+    private static String url = null;
 
     private static final String KEY = "SCU";
 
-    static {
-        URL = "https://sc.ftqq.com/" + AutoDailyCp.info.getScKey() + ".send";
+    private static String scKey;
+
+    public static void initial(String key) {
+        url = "https://sc.ftqq.com/" + key + ".send";
+        scKey = key;
     }
 
+    /**
+     * ServerChan发送消息
+     *
+     * @param message 消息标题
+     * @param description 消息描述
+     */
     public static void sendMessage(String message, String description) {
-        String scKey = AutoDailyCp.info.getScKey();
+        send(message, description);
+    }
+
+    private static void send(String message, String description) {
         if (scKey != null && scKey.contains(KEY)) {
             log.info("发送server酱通知消息至微信");
 
             try {
-                HttpResponse response = HttpRequest.post(URL)
+                HttpResponse response = HttpRequest.post(url)
                         .form("text", message)
                         .form("desp", description)
                         .execute();

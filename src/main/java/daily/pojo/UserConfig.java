@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2020/7/20
  */
 @Data
-public class BaseInfo {
+public class UserConfig {
 
     private String username;
 
@@ -19,32 +19,15 @@ public class BaseInfo {
 
     private String latitude;
 
-    private String swuIndex;
-
-    private String swuLogin;
-
-    private String signGetMessage;
-
-    private String signGetForm;
-
-    private String signSubmitForm;
-
-    private String attendanceGetMessage;
-
-    private String attendanceGetForm;
-
-    private String attendanceSubmitForm;
-
     private Boolean activeAttendance;
-
-    private String apiVersion;
 
     private String scKey;
 
-    public BaseInfo() {
+    public UserConfig() {
+        this.username = null;
     }
 
-    public BaseInfo(String username, String password, String position, String longitude, String latitude, Boolean activeAttendance) {
+    public UserConfig(String username, String password, String position, String longitude, String latitude, Boolean activeAttendance) {
         this.username = username;
         this.password = password;
         this.position = position;

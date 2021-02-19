@@ -7,10 +7,10 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import daily.AutoDailyCp;
-import daily.pojo.MessageBox;
 import daily.constant.CpDaily;
+import daily.constant.CpDailyApi;
 import daily.constant.Headers;
+import daily.pojo.MessageBox;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class SignRequest {
     private final String latitude;
     private final String position;
 
-    private static String   cookie;
+    private static String cookie;
 
     private static final String UNSIGNED_TASKS = "unSignedTasks";
     private static final String LEAVE_TASKS = "leaveTasks";
@@ -48,10 +48,16 @@ public class SignRequest {
         cookie = cookies;
     }
 
-    public List<MessageBox> getMessage() {
-        JSONArray jsonArray = getResponseJson(AutoDailyCp.info.getSignGetMessage());
-        if (AutoDailyCp.info.getActiveAttendance()) {
-            jsonArray.addAll(getResponseJson(AutoDailyCp.info.getAttendanceGetMessage()));
+    /**
+     * 获取当前时段的签到查寝信息
+     *
+     * @param activeAttendance 是否获取查寝信息
+     * @return 信息列表
+     */
+    public List<MessageBox> getMessage(boolean activeAttendance) {
+        JSONArray jsonArray = getResponseJson(CpDailyApi.SIGN_GET_MESSAGE);
+        if (activeAttendance) {
+            jsonArray.addAll(getResponseJson(CpDailyApi.ATTENDANCE_GET_MESSAGE));
         }
 
         List<MessageBox> messages = new ArrayList<>();
@@ -88,6 +94,13 @@ public class SignRequest {
         return DateUtil.parse(DateUtil.format(new Date(), "yyyy-MM-dd") + " " + str).toString();
     }
 
+    /**
+     * 签到或查寝
+     *
+     * @param message 消息体
+     * @param cpExtension 加密字符串
+     * @return 是否成功
+     */
     public boolean submitMessage(MessageBox message, String cpExtension) {
         String body;
         // 查寝
@@ -105,13 +118,21 @@ public class SignRequest {
                     .replace("r2", latitude)
                     .replace("local", position);
         }
-        return submitForm (
+        return submitForm(
                 body,
                 cpExtension,
-                message.getType() == 1 ? AutoDailyCp.info.getAttendanceSubmitForm() : AutoDailyCp.info.getSignSubmitForm()
+                message.getType() == 1 ? CpDailyApi.ATTENDANCE_SUBMIT_FORM : CpDailyApi.SIGN_SUBMIT_FORM
         );
     }
 
+    /**
+     * 提交消息
+     *
+     * @param body 签到或查寝的请求Body
+     * @param cpExtension 加密字符串
+     * @param api 签到或查寝的提交Api
+     * @return 是否成功
+     */
     public boolean submitForm(String body, String cpExtension, String api) {
         HttpResponse response = HttpRequest.post(api)
                 .header("Content-Type", Headers.CONTENT_TYPE)
@@ -137,7 +158,7 @@ public class SignRequest {
     }
 
     public String getExtraFieldItemWid(String signInstanceWid, String signWid) {
-        String responseBody = HttpRequest.post(AutoDailyCp.info.getSignGetForm())
+        String responseBody = HttpRequest.post(CpDailyApi.SIGN_GET_FORM)
                 .header("Content-Type", "application/json")
                 .header("Cookie", cookie)
                 .body("{\"signInstanceWid\":\"" + signInstanceWid + "\",\"signWid\":\"" + signWid + "\"}")
