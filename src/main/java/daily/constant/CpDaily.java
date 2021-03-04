@@ -20,5 +20,5 @@ public interface CpDaily {
     String SUBMIT_INFO = "{\"signInstanceWid\":\"siWid\",\"longitude\":r1,\"latitude\":r2,\"isMalposition\":0" +
             ",\"abnormalReason\":\"\",\"signPhotoUrl\":\"" +
             "https://wecres.cpdaily.com/counselor/1019318364515869/attachment/03b0532446d14be99f057ba744c7af95.png\",\"" +
-            "position\":\"local\",\"qrUuid\":\"\"}";
+            "position\":\"local\",\"uaIsCpadaily\":true}";
 }

@@ -1,6 +1,5 @@
 package daily;
 
-import daily.pojo.UserConfig;
 import daily.pojo.KeyValueClass;
 
 /**

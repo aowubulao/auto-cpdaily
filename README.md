@@ -12,23 +12,9 @@
 
 ## 使用
 
-脚本支持两种方式的打卡：
-
-- **腾讯云函数** (建议使用)
-
-- **Github Action**（不太建议使用）
-
-  请选择适合自己的方式
-
-#### 腾讯云函数
+- **腾讯云函数**
 
 使用手册：https://blog.neoniou.com/posts/auto-serverless-readme/
-
-#### Github Action
-
-本方法的定时任务可能会有一定的延迟，不过不影响打卡
-
-[使用教程](./docs/how-to-usegithub-action.md) 
 
 ## 其他
 

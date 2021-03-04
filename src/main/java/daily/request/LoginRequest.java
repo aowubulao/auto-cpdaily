@@ -2,7 +2,6 @@ package daily.request;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import daily.AutoDailyCp;
 import daily.constant.CpDailyApi;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
