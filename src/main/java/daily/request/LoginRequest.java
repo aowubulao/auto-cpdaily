@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.net.HttpCookie;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,11 +78,11 @@ public class LoginRequest {
     }
 
     private static String handleCookie(List<HttpCookie> cookies) {
-        String cas = cookies.get(0).toString();
-        String temp = cookies.get(1).toString();
-        String acw = temp.substring(0, temp.indexOf(";")).replaceAll("\"", "");
-
-        return cas + ";" + acw;
+        List<String> stringList = new ArrayList<>();
+        cookies.stream().forEach(e -> {
+            stringList.add(e.toString());
+        });
+        return String.join(";", stringList);
     }
 
     private static String getLt(String document) {
