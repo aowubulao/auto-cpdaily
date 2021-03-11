@@ -25,6 +25,6 @@ public class AutoDailyCp {
      * @throws Exception 异常
      */
     public void mainHandler(KeyValueClass kv) throws Exception {
-        SignApplication.start(new String[0]);
+        SignApplication.start();
     }
 }

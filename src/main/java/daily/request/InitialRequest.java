@@ -1,5 +1,6 @@
 package daily.request;
 
+import cn.hutool.core.util.RandomUtil;
 import daily.pojo.UserConfig;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +14,16 @@ import java.util.Properties;
  */
 @Slf4j
 public class InitialRequest {
+
+    /**
+     * 随机坐标最大值
+     */
+    private static final int RANDOM_MIN = -50;
+
+    /**
+     * 随机坐标最小值
+     */
+    private static final int RANDOM_MAX = 50;
 
     /**
      * 初始化配置文件
@@ -35,8 +46,14 @@ public class InitialRequest {
             props.load(is);
             userConfig.setUsername(props.getProperty("username"));
             userConfig.setPassword(props.getProperty("password"));
-            userConfig.setLongitude(props.getProperty("longitude"));
-            userConfig.setLatitude(props.getProperty("latitude"));
+            userConfig.setLongitude(randomPosition(
+                    Double.parseDouble(props.getProperty("longitude"))
+                )
+            );
+            userConfig.setLongitude(randomPosition(
+                    Double.parseDouble(props.getProperty("latitude"))
+                )
+            );
             userConfig.setPosition(props.getProperty("position"));
             userConfig.setScKey(props.getProperty("scKey"));
             userConfig.setActiveAttendance(true);
@@ -47,4 +64,11 @@ public class InitialRequest {
             return null;
         }
     }
+
+    private static String randomPosition(double position) {
+        double randomInt = RandomUtil.randomInt(RANDOM_MIN, RANDOM_MAX);
+        position -= randomInt / 100000;
+        return String.format("%.6f", position);
+    }
+
 }
