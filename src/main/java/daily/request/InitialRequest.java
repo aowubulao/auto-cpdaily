@@ -16,14 +16,16 @@ import java.util.Properties;
 public class InitialRequest {
 
     /**
-     * 随机坐标最大值
+     * 随机坐标最小值
      */
     private static final int RANDOM_MIN = -50;
 
     /**
-     * 随机坐标最小值
+     * 随机坐标最大值
      */
     private static final int RANDOM_MAX = 50;
+
+    private static final int MULTIPLIER = 1000000;
 
     /**
      * 初始化配置文件
@@ -50,7 +52,7 @@ public class InitialRequest {
                     Double.parseDouble(props.getProperty("longitude"))
                 )
             );
-            userConfig.setLongitude(randomPosition(
+            userConfig.setLatitude(randomPosition(
                     Double.parseDouble(props.getProperty("latitude"))
                 )
             );
@@ -67,7 +69,7 @@ public class InitialRequest {
 
     private static String randomPosition(double position) {
         double randomInt = RandomUtil.randomInt(RANDOM_MIN, RANDOM_MAX);
-        position -= randomInt / 100000;
+        position -= randomInt / MULTIPLIER;
         return String.format("%.6f", position);
     }
 
