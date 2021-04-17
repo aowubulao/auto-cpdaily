@@ -2,6 +2,7 @@ package daily.request;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONArray;
@@ -80,8 +81,8 @@ public class SignRequest {
 
     private static JSONArray getResponseJson(String api) {
         String responseBody = HttpRequest.post(api)
-                .header("Content-Type", "application/json")
-                .header("Cookie", cookie)
+                .contentType(Headers.APPLICATION_JSON)
+                .cookie(cookie)
                 .body("{\"pageSize\": 10,\"pageNumber\": 1}")
                 .execute().body();
         JSONArray unsigned = JSONUtil.parseObj(responseBody).getJSONObject(DATAS).getJSONArray(UNSIGNED_TASKS);
@@ -135,7 +136,7 @@ public class SignRequest {
      */
     public boolean submitForm(String body, String cpExtension, String api) {
         HttpResponse response = HttpRequest.post(api)
-                .header("Content-Type", Headers.CONTENT_TYPE)
+                .contentType(Headers.APPLICATION_JSON)
                 .header("tenantId", CpDaily.TENANT_ID)
                 .header("Cpdaily-Extension", cpExtension)
                 .body(body)
@@ -159,8 +160,8 @@ public class SignRequest {
 
     public String getExtraFieldItemWid(String signInstanceWid, String signWid) {
         String responseBody = HttpRequest.post(CpDailyApi.SIGN_GET_FORM)
-                .header("Content-Type", "application/json")
-                .header("Cookie", cookie)
+                .contentType(Headers.APPLICATION_JSON)
+                .cookie(cookie)
                 .body("{\"signInstanceWid\":\"" + signInstanceWid + "\",\"signWid\":\"" + signWid + "\"}")
                 .execute().body();
 

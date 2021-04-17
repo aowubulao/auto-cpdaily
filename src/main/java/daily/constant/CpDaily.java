@@ -15,7 +15,7 @@ public interface CpDaily {
     String SIGN_INFO = "{\"longitude\":r1,\"latitude\":r2,\"isMalposition\":1,\"abnormalReason\":\"\"," +
             "\"signPhotoUrl\":\"\",\"isNeedExtra\":1,\"position\":\"local\"," +
             "\"uaIsCpadaily\":true,\"signInstanceWid\":\"siWid\",\"" +
-            "extraFieldItems\":[{\"extraFieldItemValue\":\"正常，<37.2℃\",\"extraFieldItemWid\":itemId}]}";
+            "extraFieldItems\":[{\"extraFieldItemValue\":\"正常，<37.2℃\",\"extraFieldItemWid\":itemId}],\"signVersion\":\"1.0.0\"}";
 
     String SUBMIT_INFO = "{\"signInstanceWid\":\"siWid\",\"longitude\":r1,\"latitude\":r2,\"isMalposition\":0" +
             ",\"abnormalReason\":\"\",\"signPhotoUrl\":\"" +

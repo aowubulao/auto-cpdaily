@@ -28,7 +28,7 @@ public class SignApplication {
     private static final int ZERO = 0;
 
 
-    public static void start(String... args) throws Exception {
+    public static void start(String... args) {
         UserConfig userConfig = readAndConfigArgs(args);
         if (userConfig == null) {
             return;

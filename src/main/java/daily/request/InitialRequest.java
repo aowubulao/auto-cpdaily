@@ -48,14 +48,8 @@ public class InitialRequest {
             props.load(is);
             userConfig.setUsername(props.getProperty("username"));
             userConfig.setPassword(props.getProperty("password"));
-            userConfig.setLongitude(randomPosition(
-                    Double.parseDouble(props.getProperty("longitude"))
-                )
-            );
-            userConfig.setLatitude(randomPosition(
-                    Double.parseDouble(props.getProperty("latitude"))
-                )
-            );
+            userConfig.setLongitude(randomPosition(props.getProperty("longitude")));
+            userConfig.setLatitude(randomPosition(props.getProperty("latitude")));
             userConfig.setPosition(props.getProperty("position"));
             userConfig.setScKey(props.getProperty("scKey"));
             userConfig.setActiveAttendance(true);
@@ -67,7 +61,15 @@ public class InitialRequest {
         }
     }
 
-    private static String randomPosition(double position) {
+    /**
+     * 位置坐标随机正负50
+     *
+     * @param positionStr 位置坐标字符串
+     * @return 随机后的坐标
+     */
+    private static String randomPosition(String positionStr) {
+        double position = Double.parseDouble(positionStr);
+
         double randomInt = RandomUtil.randomInt(RANDOM_MIN, RANDOM_MAX);
         position -= randomInt / MULTIPLIER;
         return String.format("%.6f", position);
