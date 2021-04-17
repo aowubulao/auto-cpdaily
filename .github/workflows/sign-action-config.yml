@@ -4,7 +4,7 @@ name: Auto Sign
 
 on:
   schedule:
-    - cron:  '2 1,12,14 * * *'
+    - cron:  '2 1,12,13 * * *'
   push:
     branches:
       - serverless
