@@ -1,7 +1,9 @@
 package daily.request;
 
+import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import cn.hutool.json.JSONUtil;
 import daily.constant.CpDailyApi;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,78 +35,46 @@ public class LoginRequest {
      * @return 登录后的Cookie, 返回null为登录失败
      */
     public static String login(String username, String password) {
-        // 首页信息
-        HttpResponse indexRes = HttpRequest.get(CpDailyApi.SWU_INDEX)
-                .header("Cookie", "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE=zh_CN")
+        HttpResponse ltRes = HttpRequest.post(CpDailyApi.SWU_LT)
+                .body("lt", "")
                 .execute();
 
-        List<HttpCookie> cookies;
-        if (indexRes.getStatus() == OK) {
-            lt = getLt(indexRes.body());
-            Map<String, Object> loginMap = generateLoginMap(username, password);
+        String lt = JSONUtil.parseObj(ltRes.body()).getJSONObject("result").getStr("_lt");
 
-            // 替换登录 url
-            cookies = indexRes.getCookies();
-            String sessionId = cookies.get(0).toString();
-            String loginUrl = CpDailyApi.SWU_LOGIN.replace("sessionId", sessionId);
+        HttpResponse loginRes = HttpRequest.post(CpDailyApi.SWU_DO_LOGIN)
+                .form(genLoginMap(username, password, lt))
+                .cookie(parseCookie(ltRes.getCookies()))
+                .execute();
 
-            // 登录步骤 1
-            HttpResponse loginRes = HttpRequest.post(loginUrl)
-                    .cookie(cookies.toString())
-                    .form(loginMap)
-                    .execute();
+        HttpResponse doLoginRes = HttpRequest.get(CpDailyApi.SWU_AUTH_LOGIN)
+                .cookie(parseCookie(loginRes.getCookies()))
+                .execute();
 
-            // 登陆失败
-            if (loginRes.getStatus() == OK) {
-                return null;
-            }
+        HttpResponse resultRes = HttpRequest.get(doLoginRes.header(Header.LOCATION))
+                .cookie(parseCookie(doLoginRes.getCookies()))
+                .execute();
 
-            cookies = loginRes.getCookies();
+        return parseCookie(resultRes.getCookies());
+    }
 
-            // 跳转最终获取 Cookie
-            HttpResponse moveRes = HttpRequest.get(loginRes.header("Location"))
-                    .cookie(cookies.toString())
-                    .execute();
-
-            cookies = moveRes.getCookies();
-        } else {
-            // 跳转最终获取 Cookie
-            HttpResponse moveRes = HttpRequest.get(indexRes.header("Location"))
-                    .execute();
-            cookies = moveRes.getCookies();
+    private static String parseCookie(List<HttpCookie> cookies) {
+        StringBuilder sb = new StringBuilder();
+        for (HttpCookie cookie : cookies) {
+            sb.append(cookie.toString()).append(";");
         }
-
-        return handleCookie(cookies);
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 
-    private static String handleCookie(List<HttpCookie> cookies) {
-        List<String> stringList = new ArrayList<>();
-        cookies.forEach(e -> stringList.add(e.toString()));
-        return String.join(";", stringList);
-    }
-
-    private static String getLt(String document) {
-        Document dom = Jsoup.parse(document);
-        Elements elements = dom.getElementsByTag("input");
-        for (Element element : elements) {
-            if (element.toString().contains("lt")) {
-                lt = element.toString().substring(38, 101);
-                return lt;
-            }
-        }
-        return null;
-    }
-
-    private static Map<String, Object> generateLoginMap(String username, String password) {
-        Map<String, Object> loginMap = new HashMap<>();
+    private static Map<String, Object> genLoginMap(String username, String password, String lt) {
+        Map<String, Object> loginMap = new HashMap<>(16);
         loginMap.put("username", username);
         loginMap.put("password", password);
+        loginMap.put("mobile", "");
+        loginMap.put("dllt", "");
+        loginMap.put("captcha", "");
+        loginMap.put("rememberMe", "false");
         loginMap.put("lt", lt);
-        loginMap.put("dllt", "userNamePasswordLogin");
-        loginMap.put("execution", "e1s1");
-        loginMap.put("_eventId", "submit");
-        loginMap.put("rmShown", "1");
-
         return loginMap;
     }
 }

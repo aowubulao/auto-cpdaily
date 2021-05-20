@@ -137,6 +137,7 @@ public class SignRequest {
     public boolean submitForm(String body, String cpExtension, String api) {
         HttpResponse response = HttpRequest.post(api)
                 .contentType(Headers.APPLICATION_JSON)
+                .cookie(cookie)
                 .header("tenantId", CpDaily.TENANT_ID)
                 .header("Cpdaily-Extension", cpExtension)
                 .body(body)

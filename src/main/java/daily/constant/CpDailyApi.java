@@ -6,9 +6,11 @@ package daily.constant;
  */
 public interface CpDailyApi {
 
-    String SWU_INDEX = "http://authserverxg.swu.edu.cn/authserver/login?service=https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
+    String SWU_LT = "https://swu.campusphere.net/iap/security/lt";
 
-    String SWU_LOGIN = "http://authserverxg.swu.edu.cn/authserver/login;sessionId?service=https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
+    String SWU_DO_LOGIN = "https://swu.campusphere.net/iap/doLogin";
+
+    String SWU_AUTH_LOGIN = "https://swu.campusphere.net/iap/login?service=https%3A%2F%2Fswu.campusphere.net%2Fportal%2Flogin";
 
     String SIGN_GET_MESSAGE = "https://swu.campusphere.net/wec-counselor-sign-apps/stu/sign/getStuSignInfosInOneDay";
 
