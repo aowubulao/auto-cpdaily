@@ -2,7 +2,6 @@ package daily.request;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONArray;
@@ -98,7 +97,7 @@ public class SignRequest {
     /**
      * 签到或查寝
      *
-     * @param message 消息体
+     * @param message     消息体
      * @param cpExtension 加密字符串
      * @return 是否成功
      */
@@ -129,9 +128,9 @@ public class SignRequest {
     /**
      * 提交消息
      *
-     * @param body 签到或查寝的请求Body
+     * @param body        签到或查寝的请求Body
      * @param cpExtension 加密字符串
-     * @param api 签到或查寝的提交Api
+     * @param api         签到或查寝的提交Api
      * @return 是否成功
      */
     public boolean submitForm(String body, String cpExtension, String api) {

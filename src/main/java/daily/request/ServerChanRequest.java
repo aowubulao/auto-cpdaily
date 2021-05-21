@@ -25,7 +25,7 @@ public class ServerChanRequest {
     /**
      * ServerChan发送消息
      *
-     * @param message 消息标题
+     * @param message     消息标题
      * @param description 消息描述
      */
     public static void sendMessage(String message, String description) {
